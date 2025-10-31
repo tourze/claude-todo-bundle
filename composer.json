@@ -28,7 +28,7 @@
     "symfony/process": "^7.3",
     "symfony/yaml": "^7.3",
     "tourze/bundle-dependency": "1.*",
-    "tourze/easy-admin-enum-field-bundle": "0.0.*",
+    "tourze/easy-admin-enum-field-bundle": "1.0.*",
     "tourze/enum-extra": "1.*",
     "tourze/symfony-dependency-service-loader": "1.*"
   },
