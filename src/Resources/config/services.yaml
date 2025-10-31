@@ -1,0 +1,39 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  # Auto-configure task processors
+  _instanceof:
+    Tourze\ClaudeTodoBundle\Processor\TaskProcessorInterface:
+      tags: ['claude_todo.task_processor']
+
+  Tourze\ClaudeTodoBundle\Repository\:
+    resource: '../../Repository/'
+
+  tourze_claude_todo.repository.todo_task: '@Tourze\ClaudeTodoBundle\Repository\TodoTaskRepository'
+
+  # Services
+  Tourze\ClaudeTodoBundle\Service\ConfigManager: ~
+
+  Tourze\ClaudeTodoBundle\Service\TodoManager: ~
+  Tourze\ClaudeTodoBundle\Service\TodoManagerInterface: '@Tourze\ClaudeTodoBundle\Service\TodoManager'
+
+  Tourze\ClaudeTodoBundle\Service\ClaudeExecutor: ~
+  Tourze\ClaudeTodoBundle\Service\ClaudeExecutorInterface: '@Tourze\ClaudeTodoBundle\Service\ClaudeExecutor'
+
+  Tourze\ClaudeTodoBundle\Service\SleepService: ~
+  Tourze\ClaudeTodoBundle\Service\SleepServiceInterface: '@Tourze\ClaudeTodoBundle\Service\SleepService'
+
+  # Task Processor Manager
+  Tourze\ClaudeTodoBundle\Service\TaskProcessorManager: ~
+  tourze_claude_todo.task_processor_manager: '@Tourze\ClaudeTodoBundle\Service\TaskProcessorManager'
+
+  Tourze\ClaudeTodoBundle\Command\:
+    resource: '../../Command/'
+
+  Tourze\ClaudeTodoBundle\Controller\:
+    resource: '../../Controller/'
+
+  

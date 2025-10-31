@@ -1,0 +1,60 @@
+{
+  "name": "tourze/claude-todo-bundle",
+  "description": "A Symfony bundle for managing TODO tasks with Claude AI integration",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Monorepo Team",
+      "email": "team@example.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "doctrine/dbal": "^4.0",
+    "doctrine/doctrine-bundle": "^2.13",
+    "doctrine/orm": "^3.0",
+    "doctrine/persistence": "^4.1",
+    "easycorp/easyadmin-bundle": "^4",
+    "psr/log": "^3|^2|^1",
+    "symfony/config": "^7.3",
+    "symfony/console": "^7.3",
+    "symfony/dependency-injection": "^7.3",
+    "symfony/doctrine-bridge": "^7.3",
+    "symfony/event-dispatcher": "^7.3",
+    "symfony/event-dispatcher-contracts": "^3",
+    "symfony/framework-bundle": "^7.3",
+    "symfony/http-kernel": "^7.3",
+    "symfony/process": "^7.3",
+    "symfony/yaml": "^7.3",
+    "tourze/bundle-dependency": "1.*",
+    "tourze/easy-admin-enum-field-bundle": "0.0.*",
+    "tourze/enum-extra": "0.1.*",
+    "tourze/symfony-dependency-service-loader": "0.0.*"
+  },
+  "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^4.0",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.5",
+    "symfony/phpunit-bridge": "^7.3",
+    "tourze/phpunit-base": "1.*",
+    "tourze/phpunit-doctrine-entity": "0.0.*",
+    "tourze/phpunit-enum": "0.0.*",
+    "tourze/phpunit-symfony-kernel-test": "0.0.*",
+    "tourze/phpunit-symfony-unit-test": "0.0.*",
+    "tourze/phpunit-symfony-web-test": "0.0.*",
+    "tourze/symfony-testing-framework": "0.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tourze\\ClaudeTodoBundle\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tourze\\ClaudeTodoBundle\\Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
