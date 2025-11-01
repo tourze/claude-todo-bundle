@@ -30,8 +30,8 @@
     "symfony/yaml": "^7.3",
     "tourze/bundle-dependency": "1.*",
     "tourze/easy-admin-enum-field-bundle": "1.0.*",
-    "tourze/enum-extra": "1.*",
-    "tourze/symfony-dependency-service-loader": "1.*"
+    "tourze/enum-extra": "1.0.*",
+    "tourze/symfony-dependency-service-loader": "1.0.*"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^4.0",
