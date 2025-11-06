@@ -294,10 +294,14 @@ final class TodoTaskRepositoryTest extends AbstractRepositoryTestCase
 
     public function testFindNextAvailableTask(): void
     {
+        // Clear existing tasks to ensure deterministic test results
+        $this->clearAllTasks();
+
         // Create tasks and manually set creation times to ensure deterministic ordering
         $task1 = $this->createAndSaveTask('group1', 'Low priority', TaskStatus::PENDING, TaskPriority::LOW);
         $task2 = $this->createAndSaveTask('group1', 'High priority', TaskStatus::PENDING, TaskPriority::HIGH);
         $task3 = $this->createAndSaveTask('group2', 'Normal priority', TaskStatus::PENDING, TaskPriority::NORMAL);
+        $task4 = $this->createAndSaveTask('group3', 'Fallback task', TaskStatus::PENDING, TaskPriority::NORMAL);
 
         // Set different creation times using SQL to ensure deterministic ordering
         $em = self::getEntityManager();
@@ -305,22 +309,29 @@ final class TodoTaskRepositoryTest extends AbstractRepositoryTestCase
         $conn->executeStatement(
             'UPDATE claude_todo_tasks SET created_time = :createdTime WHERE id = :id',
             [
-                'createdTime' => (new \DateTime('-3 minutes'))->format('Y-m-d H:i:s'),
+                'createdTime' => (new \DateTime('-4 minutes'))->format('Y-m-d H:i:s'),
                 'id' => $task1->getId(),
             ]
         );
         $conn->executeStatement(
             'UPDATE claude_todo_tasks SET created_time = :createdTime WHERE id = :id',
             [
-                'createdTime' => (new \DateTime('-2 minutes'))->format('Y-m-d H:i:s'),
+                'createdTime' => (new \DateTime('-3 minutes'))->format('Y-m-d H:i:s'),
                 'id' => $task2->getId(),
             ]
         );
         $conn->executeStatement(
             'UPDATE claude_todo_tasks SET created_time = :createdTime WHERE id = :id',
             [
-                'createdTime' => (new \DateTime('-1 minute'))->format('Y-m-d H:i:s'),
+                'createdTime' => (new \DateTime('-2 minutes'))->format('Y-m-d H:i:s'),
                 'id' => $task3->getId(),
+            ]
+        );
+        $conn->executeStatement(
+            'UPDATE claude_todo_tasks SET created_time = :createdTime WHERE id = :id',
+            [
+                'createdTime' => (new \DateTime('-1 minute'))->format('Y-m-d H:i:s'),
+                'id' => $task4->getId(),
             ]
         );
         $em->clear();
@@ -332,19 +343,17 @@ final class TodoTaskRepositoryTest extends AbstractRepositoryTestCase
         // Due to alphabetical sorting of priority strings, 'low' comes before 'high' in DESC order
         $this->assertEquals(TaskPriority::LOW, $next->getPriority());
 
-        // Test with excluded groups
+        // Test with excluded groups - should find task from group2
         $next = $this->repository->findNextAvailableTask(null, ['group1' => true]);
         $this->assertNotNull($next);
         $this->assertEquals('Normal priority', $next->getDescription());
 
         // Test with excluded groups (排除我们创建的任务组)
+        // Should find task from group3 since group1 and group2 are excluded
         $next = $this->repository->findNextAvailableTask(null, ['group1' => true, 'group2' => true]);
-        // 由于 DataFixtures 中有其他组的任务（如 frontend, backend 等），
-        // 应该能找到不属于被排除组的任务
-        if (null !== $next) {
-            $this->assertNotContains($next->getGroupName(), ['group1', 'group2']);
-        }
-        // 注意：由于有 DataFixtures，这里通常不会返回 null
+        $this->assertNotNull($next);
+        $this->assertEquals('Fallback task', $next->getDescription());
+        $this->assertEquals('group3', $next->getGroupName());
     }
 
     public function testFindOneByWithOrderByPriority(): void
@@ -594,6 +603,16 @@ final class TodoTaskRepositoryTest extends AbstractRepositoryTestCase
             'result' => 'In Progress',
         ]);
         $this->assertEquals(1, $countMixed);
+    }
+
+    private function clearAllTasks(): void
+    {
+        $em = self::getEntityManager();
+        $connection = $em->getConnection();
+
+        // Use native SQL to delete all tasks efficiently
+        $connection->executeStatement('DELETE FROM claude_todo_tasks');
+        $em->clear();
     }
 
     private function createTask(string $groupName, string $description): TodoTask
