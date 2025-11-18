@@ -18,7 +18,6 @@ use Tourze\ClaudeTodoBundle\Repository\TodoTaskRepository;
 #[ORM\Index(name: 'claude_todo_tasks_idx_status_created', columns: ['status', 'created_time'])]
 class TodoTask implements \Stringable
 {
-    /** @phpstan-ignore-next-line */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => '主键ID'])]

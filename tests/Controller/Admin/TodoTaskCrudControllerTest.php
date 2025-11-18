@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tourze\ClaudeTodoBundle\Tests\Controller;
+namespace Tourze\ClaudeTodoBundle\Tests\Controller\Admin;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -212,9 +212,8 @@ final class TodoTaskCrudControllerTest extends AbstractEasyAdminControllerTestCa
     public function testValidationErrors(): void
     {
         // 直接使用正确的客户端初始化方法，避免基类的问题
-        $client = self::createClientWithDatabase();
-        $this->createAdminUser('admin@test.com', 'password123');
-        $this->loginAsAdmin($client, 'admin@test.com', 'password123');
+        $client = self::createAuthenticatedClient();
+
         $crawler = $client->request('GET', $this->generateAdminUrl('new'));
 
         // 验证响应成功
