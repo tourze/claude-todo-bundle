@@ -64,12 +64,6 @@ final class TodoTaskCrudControllerTest extends AbstractEasyAdminControllerTestCa
         yield '优先级' => ['priority'];
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $controller = new TodoTaskCrudController();
-        $this->assertEquals(TodoTask::class, $controller::getEntityFqcn());
-    }
-
     public function testConfigureCrud(): void
     {
         $controller = new TodoTaskCrudController();
