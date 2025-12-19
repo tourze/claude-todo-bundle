@@ -42,7 +42,7 @@ final class ClearCommandTest extends AbstractCommandTestCase
         $command = $container->get(ClearCommand::class);
 
         $application = new Application();
-        $application->add($command);
+        $application->addCommand($command);
 
         $this->commandTester = new CommandTester($command);
     }

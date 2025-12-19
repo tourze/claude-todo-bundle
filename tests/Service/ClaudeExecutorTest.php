@@ -434,7 +434,7 @@ final class ClaudeExecutorTest extends TestCase
         try {
             $this->executor->execute($task);
             self::fail('Expected UsageLimitException was not thrown');
-        } catch (UsageLimitException $e) { // @phpstan-ignore-line catch.neverThrown
+        } catch (UsageLimitException $e) {
             $this->assertGreaterThan(time(), $e->getWaitUntil());
         } finally {
             unlink($scriptPath);

@@ -6,7 +6,7 @@ namespace Tourze\ClaudeTodoBundle\DependencyInjection;
 
 use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class ClaudeTodoExtension extends AutoExtension
+final class ClaudeTodoExtension extends AutoExtension
 {
     protected function getConfigDir(): string
     {

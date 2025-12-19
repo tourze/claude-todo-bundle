@@ -75,7 +75,6 @@ final class TaskPriorityTest extends AbstractEnumTestCase
         $this->assertSame(TaskPriority::HIGH, TaskPriority::tryFrom('high'));
 
         // Test invalid value returns null
-        /** @phpstan-ignore-next-line */
         $this->assertNull(TaskPriority::tryFrom('invalid'));
     }
 

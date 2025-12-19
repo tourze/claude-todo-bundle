@@ -98,7 +98,6 @@ final class TaskStatusTest extends AbstractEnumTestCase
         $this->assertSame(TaskStatus::FAILED, TaskStatus::tryFrom('failed'));
 
         // Test invalid value returns null
-        /** @phpstan-ignore-next-line */
         $this->assertNull(TaskStatus::tryFrom('invalid'));
     }
 
